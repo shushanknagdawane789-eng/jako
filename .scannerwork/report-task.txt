@@ -1,0 +1,6 @@
+projectKey=timeless
+serverUrl=http://3.106.226.255:9000
+serverVersion=25.5.0.107428
+dashboardUrl=http://3.106.226.255:9000/dashboard?id=timeless
+ceTaskId=987f8873-541a-4c6c-a351-3a187b2a7b9e
+ceTaskUrl=http://3.106.226.255:9000/api/ce/task?id=987f8873-541a-4c6c-a351-3a187b2a7b9e
