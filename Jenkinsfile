@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         DOCKER_REPO = "shushanknagdawane789"
-        DOCKER_USER = "node-app"
-        IMAGE_NAME = "node-app"
-        CONTAINER_NAME = "node-container"
+        DOCKER_USER = "timeless"
+        IMAGE_NAME = "timeless"
+        CONTAINER_NAME = "timeless-container"
     }
 
     stages {
@@ -20,11 +20,11 @@ pipeline {
         stage('Verify Environment') {
             steps {
                 sh '''
-                echo "Node Version:"
-                node -v
+                echo "Java Version:"
+                java -version
 
-                echo "NPM Version:"
-                npm -v
+                echo "Maven Version:"
+                mvn -version
 
                 echo "Docker Version:"
                 docker --version
@@ -32,33 +32,15 @@ pipeline {
             }
         }
 
-        stage('Debug') {
+        stage('Build') {
             steps {
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'find . -name package.json'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                dir('timeless') {
-                    sh 'npm install'
-                }
+                sh 'mvn clean package'
             }
         }
 
         stage('Run Tests') {
             steps {
-                dir('timeless') {
-                    sh 'npm test'
-                }
-            }
-        }
-
-        stage('Maven Build') {
-            steps {
-                sh 'mvn clean package'
+                sh 'mvn test'
             }
         }
 
@@ -96,9 +78,9 @@ pipeline {
         stage('K8s-Deployment') {
             steps {
                 sh '''
-               sed -i "s|shushanknagdawane789/node-app:.*|shushanknagdawane789/node-app:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                sed -i "s|shushanknagdawane789/timeless:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                cat k8s/deployment.yaml
                 '''
-                sh 'cat k8s/deployment.yaml'
             }
         }
     }
