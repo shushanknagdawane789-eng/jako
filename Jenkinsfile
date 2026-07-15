@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REPO = "timeless"
-        DOCKER_USER = "shushankbittu"
-        IMAGE_NAME = "timeless"
-        CONTAINER_NAME = "timeless-container"
+        DOCKER_USER = "shushankbittu"      // Docker Hub username
+        IMAGE_NAME  = "timeless"           // Docker image name
     }
 
     stages {
@@ -20,14 +18,9 @@ pipeline {
         stage('Verify Environment') {
             steps {
                 sh '''
-                echo "Java Version:"
-                java -version
-
-                echo "Maven Version:"
-                mvn -version
-
-                echo "Docker Version:"
-                docker --version
+                    java -version
+                    mvn -version
+                    docker --version
                 '''
             }
         }
@@ -45,10 +38,13 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-    steps {
-        sh 'docker build -t ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER} .'
-    }
-}
+            steps {
+                sh """
+                    docker build -t ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker tag ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER} ${DOCKER_USER}/${IMAGE_NAME}:latest
+                """
+            }
+        }
 
         stage('Docker Login') {
             steps {
@@ -59,25 +55,38 @@ pipeline {
                         passwordVariable: 'DOCKER_PASSWORD'
                     )
                 ]) {
-                    sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                    '''
                 }
             }
         }
 
         stage('Docker Push') {
-    steps {
-        sh 'docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}'
-    }
-}
+            steps {
+                sh """
+                    docker push ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker push ${DOCKER_USER}/${IMAGE_NAME}:latest
+                """
+            }
         }
 
-        stage('K8s-Deployment') {
+        stage('Update K8s Deployment') {
             steps {
-                sh '''
-                sed -i "s|shushanknagdawane789/timeless:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
-                cat k8s/deployment.yaml
-                '''
+                sh """
+                    sed -i 's|image:.*|image: ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g' k8s/deployment.yaml
+                    cat k8s/deployment.yaml
+                """
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully."
+        }
+        failure {
+            echo "Pipeline failed."
         }
     }
 }
