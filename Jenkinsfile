@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REPO = "shushanknagdawane789"
-        DOCKER_USER = "timeless"
+        DOCKER_REPO = "timeless"
+        DOCKER_USER = "shushankbittu"
         IMAGE_NAME = "timeless"
         CONTAINER_NAME = "timeless-container"
     }
@@ -45,12 +45,10 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                sh '''
-                docker build -t ${DOCKER_REPO}:${BUILD_NUMBER} .
-                '''
-            }
-        }
+    steps {
+        sh 'docker build -t ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER} .'
+    }
+}
 
         stage('Docker Login') {
             steps {
@@ -67,12 +65,10 @@ pipeline {
         }
 
         stage('Docker Push') {
-            steps {
-                sh '''
-                docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
-                docker push ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
-                '''
-            }
+    steps {
+        sh 'docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}'
+    }
+}
         }
 
         stage('K8s-Deployment') {
