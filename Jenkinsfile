@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REPO = "shushankbittu"
+        DOCKER_REPO = "timeless"
         DOCKER_USER = "shushankbittu"
         IMAGE_NAME = "timeless"
         CONTAINER_NAME = "timeless-container"
@@ -76,12 +76,13 @@ pipeline {
         }
 
         stage('K8s-Deployment') {
-            steps {
-                sh '''
-                sed -i "s|shushanknagdawane789/timeless:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
-                cat k8s/deployment.yaml
-                '''
-            }
-        }
+    steps {
+        sh '''
+        sed -i "s|image:.*|image: ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+        cat k8s/deployment.yaml
+        kubectl apply -f k8s/deployment.yaml
+        '''
+    }
+}
     }
 }
