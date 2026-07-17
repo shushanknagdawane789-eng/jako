@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/shushanknagdawane789-eng/timeless.git'
+                    url: 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
 
