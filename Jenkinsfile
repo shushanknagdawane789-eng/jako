@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REPO = "shushanknagdawane789"
-        DOCKER_USER = "timeless"
+        DOCKER_REPO = "shushankbittu"
+        DOCKER_USER = "shushankbittu"
         IMAGE_NAME = "timeless"
         CONTAINER_NAME = "timeless-container"
     }
