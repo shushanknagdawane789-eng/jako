@@ -13,6 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
+                    credentialsId: 'kamal token new',
                     url: 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
