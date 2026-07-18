@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    credentialsId: 'kamal token new',
+                    credentialsId: 'docker-hub-creds',
                     url: 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
@@ -70,8 +70,9 @@ pipeline {
         stage('Docker Push') {
             steps {
                 sh '''
-                docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
-                docker push ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
+                docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
+
+docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
                 '''
             }
         }
