@@ -82,17 +82,10 @@ pipeline {
     stage('Debug Workspace') {
     steps {
         sh '''
-        echo "Current Directory:"
         pwd
-
-        echo "Workspace Files:"
-        ls -la
-
-        echo "Searching deployment.yaml..."
+        ls -R
         find . -name deployment.yaml
-
-        echo "Listing k8s folder..."
-        ls -la k8s || true
+        find . -name service.yaml
         '''
     }
 }
