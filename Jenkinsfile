@@ -83,7 +83,7 @@ pipeline {
     steps {
         sh '''
         pwd
-        ls -R
+        ls -la
         find . -name deployment.yaml
         find . -name service.yaml
         '''
