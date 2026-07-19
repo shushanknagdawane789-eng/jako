@@ -2,10 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REPO = "timeless"
-        DOCKER_USER = "shushankbittu"
-        IMAGE_NAME = "timeless"
-        CONTAINER_NAME = "timeless-container"
+       DOCKER_USER  = "shushankbittu"
+        IMAGE_NAME   = "timeless"
+        DOCKER_REPO  = "shushankbittu"
+
+        CLUSTER_NAME = "zomato"
+        REGION       = "ap-southeast-2"
+    }
+
     }
 
     stages {
@@ -81,8 +85,7 @@ docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
                 steps {
           
                     sh '''
-                     sed -i "s|mayurwagh/node-app:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
-                    '''
+                     sed -i "s|shushankbittu/timeless:latest|${DOCKER_REPO}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
                     sh 'cat k8s/deployment.yaml'
                 }
             }
@@ -90,6 +93,8 @@ docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
                 steps{
                     withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                          sh '''
+                    echo "Cluster: ${CLUSTER_NAME}"
+echo "Region: ${REGION}"
                             aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
                             
                             kubectl get nodes
