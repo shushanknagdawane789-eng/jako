@@ -52,7 +52,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t ${DOCKER_REPO}:${BUILD_NUMBER} .
+                docker build -t ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER} .
                 '''
             }
         }
@@ -72,20 +72,23 @@ pipeline {
         }
 
         stage('Docker Push') {
-            steps {
-                sh '''
-                docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
-
-docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
-                '''
+    steps {
+        sh '''
+        docker tag ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER} ${DOCKER_USER}/${IMAGE_NAME}:latest
+        docker push ${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
+        docker push ${DOCKER_USER}/${IMAGE_NAME}:latest
+        '''
+    }
+}
             }
         }
 
         stage('Image-Name-change'){
                 steps {
           
-                    sh '''
-                     sed -i "s|shushankbittu/timeless:latest|${DOCKER_REPO}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                   sh '''
+sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+'''
                     sh 'cat k8s/deployment.yaml'
                 }
             }
