@@ -10,8 +10,6 @@ pipeline {
         REGION       = "ap-southeast-2"
     }
 
-    }
-
     stages {
 
         stage('Checkout') {
