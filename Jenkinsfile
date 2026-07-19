@@ -93,7 +93,7 @@ pipeline {
                 steps {
           
                    sh '''
-sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" deployment.yaml
+sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
 '''
                     sh 'cat k8s/deployment.yaml'
                 }
