@@ -109,19 +109,25 @@ sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUM
             }
             stage('Deploy to cluster'){
                 steps{
-                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                         sh '''
-                    echo "Cluster: ${CLUSTER_NAME}"
-echo "Region: ${REGION}"
-                            aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
-                            
-                            kubectl get nodes
-                            kubectl apply -f k8s/deployment.yaml
-                            kubectl apply -f k8s/service.yaml
-                            kubectl get pods 
-                            kubectl get deployment
-                            kubectl get svc 
-                         '''
+                    withCredentials([aws(
+    credentialsId: 'aws_creds',
+    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+)]) {
+    sh '''
+    echo "Cluster: ${CLUSTER_NAME}"
+    echo "Region: ${REGION}"
+
+    aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
+
+    kubectl get nodes
+    kubectl apply -f k8s/deployment.yaml
+    kubectl apply -f k8s/service.yaml
+    kubectl get pods
+    kubectl get deployment
+    kubectl get svc
+    '''
+}
                     }
                 }
             }
