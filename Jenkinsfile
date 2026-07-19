@@ -100,7 +100,7 @@ pipeline {
                 steps {
           
                    sh '''
-sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUMBER}|g" timeless/deployment.yaml
 '''
                     sh 'cat k8s/deployment.yaml'
                 }
@@ -119,8 +119,8 @@ sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUM
                     aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
 
                     kubectl get nodes
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
+                  kubectl apply -f timeless/deployment.yaml
+kubectl apply -f timeless/service.yaml
                     kubectl get pods
                     kubectl get deployment
                     kubectl get svc
