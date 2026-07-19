@@ -80,8 +80,7 @@ pipeline {
         '''
     }
 }
-            }
-        }
+            
     stage('Debug Workspace') {
     steps {
         sh '''
