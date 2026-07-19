@@ -127,9 +127,7 @@ sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUM
     kubectl get deployment
     kubectl get svc
     '''
-}
-                    }
-                }
+         }                
             }
         }
         post {
@@ -146,5 +144,4 @@ sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUM
                     cleanWs()
                 }
             }
-
-    }
+}
