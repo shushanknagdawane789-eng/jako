@@ -112,8 +112,8 @@ sed -i "s|shushankbittu/timeless:latest|${DOCKER_USER}/${IMAGE_NAME}:${BUILD_NUM
                     aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
 
                     kubectl get nodes
-                 kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+                 kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
                     kubectl get pods
                     kubectl get deployment
                     kubectl get svc
