@@ -11,6 +11,9 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
+                sh 'pwd'
+              sh 'ls -la'
+              sh 'find . -name "*.tf"'
                 sh 'terraform init'
             }
         }
