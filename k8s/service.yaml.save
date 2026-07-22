@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timeless-service
+spec:
+  selector:
+    app: timeless
+  ports:
+    - proto
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
