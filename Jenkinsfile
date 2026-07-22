@@ -6,6 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git 'https://github.com/shushanknagdawane789-eng/jako.git'
+            }
         }
 
         stage('Terraform Init') {
@@ -37,5 +38,5 @@ pipeline {
         always {
             echo 'Pipeline completed.'
         }
-}
+    }
 }
