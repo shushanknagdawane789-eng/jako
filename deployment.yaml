@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeless
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timeless
+  template:
+    metadata:
+      labels:
+        app: timeless
+    spec:
+      containers:
+      - name: timeless
+        image: shushankbittu/timeless:latest
+        ports:
+        - containerPort: 8080
