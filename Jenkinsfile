@@ -18,32 +18,21 @@ pipeline {
             sh 'terraform init'
         }
     }
-}
-
-stage('Terraform Validate') {
+       stage('Terraform Validate') {
     steps {
-        dir('timeless') {
-            sh 'terraform validate'
-        }
+        sh 'terraform validate'
     }
 }
 
 stage('Terraform Plan') {
     steps {
-        dir('timeless') {
-            sh 'terraform plan -out=tfplan'
-        }
+        sh 'terraform plan -out=tfplan'
     }
 }
 
 stage('Terraform Apply') {
     steps {
-        dir('timeless') {
-            sh 'terraform apply -auto-approve tfplan'
-        }
+        sh 'terraform apply -auto-approve tfplan'
     }
 }
 
-    }
-}    
-    
