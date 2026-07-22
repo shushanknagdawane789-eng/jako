@@ -37,5 +37,5 @@ pipeline {
         always {
             echo 'Pipeline completed.'
         }
-    }
+}
 }
