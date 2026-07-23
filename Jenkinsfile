@@ -25,6 +25,9 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
+                sh 'pwd'
+                sh 'ls -la'
+                sh 'find . -name "*.tf"'
                 sh 'terraform plan -out=tfplan'
             }
         }
