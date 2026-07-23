@@ -26,15 +26,16 @@ pipeline {
 
         stage('Terraform Plan') {
     steps {
-        dir('C:/Users/LENOVO/OneDrive/Desktop/timeless') {
+        dir('C:/Users/LENOVO/bittu/timeless') {
             sh 'terraform plan -out=tfplan'
         }
     }
-            
-        stage('Terraform Apply') {
-            steps {
-                sh 'terraform apply -auto-approve tfplan'
-            }
+}
+
+stage('Terraform Apply') {
+    steps {
+        dir('C:/Users/LENOVO/bittu/timeless') {
+            sh 'terraform apply -auto-approve tfplan'
         }
     }
 }
