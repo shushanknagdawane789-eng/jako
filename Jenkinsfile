@@ -26,6 +26,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
+                 dir(C:\Users\LENOVO\OneDrive\Desktop\timeless)
                 sh 'terraform plan -out=tfplan'
             }
         }
