@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git 'https://github.com/shushanknagdawane789-eng/jako.git'
@@ -17,29 +18,31 @@ pipeline {
         }
 
         stage('Terraform Validate') {
-    steps {
-        dir('.') {
-            sh 'pwd'
-            sh 'ls -la'
-            sh 'terraform validate'
+            steps {
+                dir('.') {
+                    sh 'pwd'
+                    sh 'ls -la'
+                    sh 'terraform validate'
+                }
+            }
         }
-    }
 
-stage('Terraform Plan') {
-    steps {
-        dir('.') {
-            sh 'pwd'
-            sh 'ls -la'
-            sh 'find . -name "*.tf"'
-            sh 'terraform plan -out=tfplan'
+        stage('Terraform Plan') {
+            steps {
+                dir('.') {
+                    sh 'pwd'
+                    sh 'ls -la'
+                    sh 'find . -name "*.tf"'
+                    sh 'terraform plan -out=tfplan'
+                }
+            }
         }
-    }
 
-
-     stage('Terraform Apply') {
+        stage('Terraform Apply') {
             steps {
                 sh 'terraform apply -auto-approve tfplan'
             }
         }
+
     }
 }
