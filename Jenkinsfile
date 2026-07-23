@@ -24,20 +24,14 @@ pipeline {
             }
         }
 
-        stage('Terraform Plan') {
+       stage('Terraform Plan') {
     steps {
-        dir('C:/Users/LENOVO/bittu/timeless') {
-            sh 'terraform plan -out=tfplan'
-        }
+        sh 'terraform plan -out=tfplan'
     }
 }
 
 stage('Terraform Apply') {
-            steps {
-                dir('C:/Users/LENOVO/bittu/timeless') {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
-            }
-        }
+    steps {
+        sh 'terraform apply -auto-approve tfplan'
     }
 }
