@@ -16,13 +16,14 @@ pipeline {
         }
 
         stage('Terraform Init') {
-            steps {
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'find . -name "*.tf"'
-                sh 'terraform init'
-            }
+    steps {
+        dir('timeless') {
+            sh 'pwd'
+            sh 'find . -name "*.tf"'
+            sh 'ls -R'
+            sh 'terraform init'
         }
+    }
 
         stage('Terraform Validate') {
             steps {
