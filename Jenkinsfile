@@ -33,9 +33,11 @@ pipeline {
 }
 
 stage('Terraform Apply') {
-    steps {
-        dir('C:/Users/LENOVO/bittu/timeless') {
-            sh 'terraform apply -auto-approve tfplan'
+            steps {
+                dir('C:/Users/LENOVO/bittu/timeless') {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
         }
     }
 }
