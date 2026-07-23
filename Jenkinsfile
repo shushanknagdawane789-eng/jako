@@ -2,56 +2,36 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 git 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
 
-        stage('Check Terraform Files') {
-            steps {
-                sh 'pwd'
-                sh 'find . -name "*.tf"'
-            }
-        }
-
         stage('Terraform Init') {
             steps {
-                dir('timeless') {
-                    sh 'pwd'
-                    sh 'find . -name "*.tf"'
-                    sh 'ls -R'
-                    sh 'terraform init'
-                }
+                sh 'pwd'
+                sh 'ls -R'
+                sh 'terraform init'
             }
         }
 
         stage('Terraform Validate') {
             steps {
-                dir('timeless') {
-                    sh 'terraform validate'
-                }
+                sh 'terraform validate'
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                dir('timeless') {
-                    sh 'pwd'
-                    sh 'ls -la'
-                    sh 'terraform plan -out=tfplan'
-                }
+                sh 'terraform plan -out=tfplan'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                dir('timeless') {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
-
     }
 }
