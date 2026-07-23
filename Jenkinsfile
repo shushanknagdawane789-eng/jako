@@ -33,8 +33,8 @@ pipeline {
         stage('Terraform Plan') {
     steps {
         dir('timeless') {
-            sh 'terraform init'
-            sh 'terraform validate'
+            sh 'pwd'
+            sh 'ls -la'
             sh 'terraform plan -out=tfplan'
         }
     }
