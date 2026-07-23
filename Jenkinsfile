@@ -11,28 +11,33 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'find . -name "*.tf"'
-                sh 'terraform init'
+                dir('timeless') {
+                    sh 'terraform init'
+                }
             }
         }
 
         stage('Terraform Validate') {
             steps {
-                sh 'terraform validate'
+                dir('timeless') {
+                    sh 'terraform validate'
+                }
             }
         }
 
-       stage('Terraform Plan') {
-    steps {
-        sh 'terraform plan -out=tfplan'
-    }
-}
-
-stage('Terraform Apply') {
+        stage('Terraform Plan') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                dir('timeless') {
+                    sh 'terraform plan -out=tfplan'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('timeless') {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
             }
         }
     }
