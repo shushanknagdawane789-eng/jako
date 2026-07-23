@@ -12,11 +12,11 @@ pipeline {
        stage('Terraform Init') {
             steps {
                 dir('timeless') {
-                    sh 'pwd'
-               sh 'find . -name "*.tf"'
-               sh 'ls -la'
-                    sh 'terraform init'
-                }
+               sh 'pwd'
+              sh 'ls -la'
+              sh 'find . -name "*.tf"'
+              sh 'terraform init'
+
             }
         }
 
