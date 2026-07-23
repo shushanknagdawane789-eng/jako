@@ -8,7 +8,13 @@ pipeline {
                 git 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
-
+         stage('Debug') {
+    steps {
+        sh 'pwd'
+        sh 'find . -name "*.tf"'
+        sh 'ls -R'
+    }
+}
         stage('Terraform Init') {
             steps {
                 dir('jako') {
