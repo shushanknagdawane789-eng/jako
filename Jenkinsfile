@@ -8,18 +8,11 @@ pipeline {
                 git 'https://github.com/shushanknagdawane789-eng/jako.git'
             }
         }
-         stage('Debug') {
-    steps {
-        sh 'pwd'
-        sh 'find . -name "*.tf"'
-        sh 'ls -R'
-    }
-}
+
         stage('Terraform Init') {
             steps {
-                dir('jako') {
+                dir('timeless') {
                     sh 'pwd'
-                    sh 'find . -name "*.tf"'
                     sh 'terraform init'
                 }
             }
@@ -27,7 +20,7 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                dir('jako') {
+                dir('timeless') {
                     sh 'terraform validate'
                 }
             }
@@ -35,7 +28,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('jako') {
+                dir('timeless') {
                     sh 'terraform plan -out=tfplan'
                 }
             }
@@ -43,11 +36,10 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('jako') {
+                dir('timeless') {
                     sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
-
     }
 }
