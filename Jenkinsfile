@@ -9,36 +9,39 @@ pipeline {
             }
         }
 
-       stage('Terraform Init') {
-    steps {
-        dir('jako') {
-            sh 'pwd'
-            sh 'find . -name "*.tf"'
-            sh 'terraform init'
+        stage('Terraform Init') {
+            steps {
+                dir('jako') {
+                    sh 'pwd'
+                    sh 'find . -name "*.tf"'
+                    sh 'terraform init'
+                }
+            }
         }
-    }
-}
 
-stage('Terraform Validate') {
-    steps {
-        dir('jako') {
-            sh 'terraform validate'
+        stage('Terraform Validate') {
+            steps {
+                dir('jako') {
+                    sh 'terraform validate'
+                }
+            }
         }
-    }
-}
 
-stage('Terraform Plan') {
-    steps {
-        dir('jako') {
-            sh 'terraform plan -out=tfplan'
+        stage('Terraform Plan') {
+            steps {
+                dir('jako') {
+                    sh 'terraform plan -out=tfplan'
+                }
+            }
         }
-    }
-}
 
-stage('Terraform Apply') {
-    steps {
-        dir('jako') {
-            sh 'terraform apply -auto-approve tfplan'
+        stage('Terraform Apply') {
+            steps {
+                dir('jako') {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
+            }
         }
+
     }
 }
