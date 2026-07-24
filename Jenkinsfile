@@ -25,21 +25,16 @@ pipeline {
             }
         }
 
-       stage('Terraform Plan') {
-    steps {
-        dir('timeless') {
-            sh 'pwd'
-            sh 'ls -la'
-            sh 'terraform plan -out=tfplan'
+        stages {
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -out=tfplan'
+            }
         }
-    }
-}
 
         stage('Terraform Apply') {
             steps {
-                dir('timeless') {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
